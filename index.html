@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Virada 2026</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="dot" aria-hidden="true"></div>
+        <span>Virada</span>
+      </div>
+
+      <div class="actions">
+        <button id="btnFocus" class="btn ghost" type="button" aria-pressed="false">
+          Modo foco
+        </button>
+        <button id="btnFullscreen" class="btn ghost" type="button">
+          Tela cheia
+        </button>
+      </div>
+    </header>
+
+    <section class="card hero" role="region" aria-label="Contagem regressiva">
+      <h1 id="headline">Contagem regressiva para 2026</h1>
+      <p class="sub" id="subline">Respira. A virada chega e você chega junto.</p>
+
+      <div class="countdown" aria-live="polite">
+        <div class="box">
+          <div class="num" id="d">00</div>
+          <div class="label">dias</div>
+        </div>
+        <div class="box">
+          <div class="num" id="h">00</div>
+          <div class="label">horas</div>
+        </div>
+        <div class="box">
+          <div class="num" id="m">00</div>
+          <div class="label">min</div>
+        </div>
+        <div class="box">
+          <div class="num" id="s">00</div>
+          <div class="label">seg</div>
+        </div>
+      </div>
+
+      <div class="meta">
+        <div class="pill" id="targetLabel">Alvo: 01/01/2026 00:00</div>
+        <div class="pill" id="nowLabel">Agora: --/--/---- --:--:--</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <section class="card" role="region" aria-label="Metas rápidas">
+        <h2>3 metas rápidas pra 2026</h2>
+        <p class="small">Escreve curto. O objetivo é clareza, não textão.</p>
+
+        <div class="goals">
+          <label class="goal">
+            <span>Meta 1</span>
+            <input id="g1" type="text" maxlength="60" placeholder="Ex: publicar 12 vídeos no Techlog" />
+          </label>
+          <label class="goal">
+            <span>Meta 2</span>
+            <input id="g2" type="text" maxlength="60" placeholder="Ex: fechar 5 clientes de sites" />
+          </label>
+          <label class="goal">
+            <span>Meta 3</span>
+            <input id="g3" type="text" maxlength="60" placeholder="Ex: estudar Flask 3x por semana" />
+          </label>
+
+          <div class="row">
+            <button id="btnSave" class="btn" type="button">Salvar</button>
+            <button id="btnClear" class="btn ghost" type="button">Limpar</button>
+            <span class="hint" id="saveHint" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" role="region" aria-label="Mensagem da virada">
+        <h2>Mensagem da virada</h2>
+        <p class="small">Quando der 00:00, entra no site.</p>
+
+        <div class="message" id="message">
+          <div class="big">⏳</div>
+          <div>
+            <div class="msgTitle">Preparando…</div>
+            <div class="msgText">Quando chegar a hora, terá confetes e a sua mensagem: “hi hi hi”.</div>
+          </div>
+        </div>
+
+        <div class="footerNote">
+          Dica: se “Modo foco” estiver ligado, reduz animações (bom pra olho e pra paz).
+        </div>
+      </section>
+    </section>
+
+    <footer class="foot">
+      <span>meu ultimo "site" de 2025
+                     desligando....JOÃO PEDRO.</span>
+      <span class="sep">•</span>
+      <span id="yearHint">2025  2026</span>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
