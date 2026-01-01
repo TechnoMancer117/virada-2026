@@ -249,8 +249,84 @@ h2{
 
 .sep{ opacity: 0.5; }
 
+/* ===== Extras ===== */
+.extrasGrid{
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 10px;
+}
+
+.extraBox{
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  background: #fbfcff;
+}
+
+.extraBox.full{
+  grid-column: 1 / -1;
+}
+
+.extraBox h3{
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.input{
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  outline: none;
+  font-size: 14px;
+  background: #fff;
+}
+
+.input:focus{
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 4px rgba(148,163,184,0.20);
+}
+
+.qrWrap{
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.qrBox{
+  width: 240px;
+  height: 240px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.recapGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.textarea{
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 14px;
+  color: var(--text);
+  resize: vertical;
+}
+
 @media (max-width: 860px){
   .grid{ grid-template-columns: 1fr; }
+  .extrasGrid{ grid-template-columns: 1fr; }
+  .recapGrid{ grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce){

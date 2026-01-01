@@ -2,6 +2,7 @@
 (() => {
   const el = (id) => document.getElementById(id);
 
+  // ======== countdown UI ========
   const dEl = el("d");
   const hEl = el("h");
   const mEl = el("m");
@@ -15,13 +16,34 @@
 
   const btnFocus = el("btnFocus");
   const btnFullscreen = el("btnFullscreen");
+
+  // ======== metas ========
   const btnSave = el("btnSave");
   const btnClear = el("btnClear");
   const saveHint = el("saveHint");
-
   const g1 = el("g1");
   const g2 = el("g2");
   const g3 = el("g3");
+
+  // ======== extras ========
+  const nick = el("nick");
+  const btnNick = el("btnNick");
+  const btnNickClear = el("btnNickClear");
+  const nickHint = el("nickHint");
+
+  const btnShare = el("btnShare");
+  const btnCopy = el("btnCopy");
+  const copyHint = el("copyHint");
+  const qrBox = el("qr");
+
+  const r1 = el("r1"), r2 = el("r2"), r3 = el("r3"), r4 = el("r4"), r5 = el("r5");
+  const btnRecap = el("btnRecap");
+  const btnRecapCopy = el("btnRecapCopy");
+  const btnRecapClear = el("btnRecapClear");
+  const recapOut = el("recapOut");
+  const recapHint = el("recapHint");
+
+  const SITE_URL = window.location.href;
 
   // ======== alvo: próxima virada (ano atual -> ano+1) ========
   const now = new Date();
@@ -32,7 +54,7 @@
 
   // ======== modo foco (reduz animação) ========
   let focusMode = false;
-  btnFocus.addEventListener("click", () => {
+  btnFocus?.addEventListener("click", () => {
     focusMode = !focusMode;
     btnFocus.setAttribute("aria-pressed", String(focusMode));
     btnFocus.textContent = focusMode ? "Modo foco: ON" : "Modo foco";
@@ -40,12 +62,12 @@
   });
 
   // ======== tela cheia ========
-  btnFullscreen.addEventListener("click", async () => {
+  btnFullscreen?.addEventListener("click", async () => {
     try {
       if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
       else await document.exitFullscreen();
     } catch {
-      // se der ruim, vida que segue
+      // se der ruim, segue o jogo
     }
   });
 
@@ -77,9 +99,148 @@
     setTimeout(() => (saveHint.textContent = ""), 1200);
   }
 
-  btnSave.addEventListener("click", saveGoals);
-  btnClear.addEventListener("click", clearGoals);
+  btnSave?.addEventListener("click", saveGoals);
+  btnClear?.addEventListener("click", clearGoals);
   loadGoals();
+
+  // ======== Extras: nome/apelido ========
+  const NICK_KEY = "virada_nick_v1";
+
+  function loadNick() {
+    try {
+      const v = localStorage.getItem(NICK_KEY) || "";
+      if (nick) nick.value = v;
+    } catch {}
+  }
+
+  function saveNick() {
+    const v = (nick?.value || "").trim();
+    localStorage.setItem(NICK_KEY, v);
+    nickHint.textContent = v ? `Salvo: ${v}` : "Nome apagado.";
+    setTimeout(() => (nickHint.textContent = ""), 1600);
+  }
+
+  function clearNick() {
+    localStorage.removeItem(NICK_KEY);
+    if (nick) nick.value = "";
+    nickHint.textContent = "Nome limpo.";
+    setTimeout(() => (nickHint.textContent = ""), 1200);
+  }
+
+  btnNick?.addEventListener("click", saveNick);
+  btnNickClear?.addEventListener("click", clearNick);
+  loadNick();
+
+  // ======== Extras: compartilhar + copiar ========
+  btnShare?.addEventListener("click", async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: document.title,
+          text: "Virada 2026 🎉",
+          url: SITE_URL
+        });
+      } else {
+        await navigator.clipboard.writeText(SITE_URL);
+        copyHint.textContent = "Seu navegador não tem share — link copiado ✅";
+        setTimeout(() => (copyHint.textContent = ""), 1600);
+      }
+    } catch {}
+  });
+
+  btnCopy?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(SITE_URL);
+      copyHint.textContent = "Link copiado ✅";
+      setTimeout(() => (copyHint.textContent = ""), 1400);
+    } catch {
+      copyHint.textContent = "Não deu pra copiar (permissão do navegador).";
+      setTimeout(() => (copyHint.textContent = ""), 1800);
+    }
+  });
+
+  // ======== Extras: QR Code real ========
+  function renderQR() {
+    try {
+      if (!qrBox) return;
+      if (typeof QRCode === "undefined") return; // caso o CDN falhe
+      qrBox.innerHTML = "";
+      // eslint-disable-next-line no-new
+      new QRCode(qrBox, {
+        text: SITE_URL,
+        width: 220,
+        height: 220,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch {}
+  }
+  renderQR();
+
+  // ======== Extras: Retrospectiva 2025 ========
+  const RECAP_KEY = "virada_recap_2025_v1";
+
+  function loadRecap() {
+    try {
+      const raw = localStorage.getItem(RECAP_KEY);
+      if (!raw) return;
+      const d = JSON.parse(raw);
+      r1.value = d.r1 || "";
+      r2.value = d.r2 || "";
+      r3.value = d.r3 || "";
+      r4.value = d.r4 || "";
+      r5.value = d.r5 || "";
+      recapOut.value = d.out || "";
+    } catch {}
+  }
+
+  function makeRecap() {
+    const name = (localStorage.getItem(NICK_KEY) || "").trim();
+    const lines = [
+      `Retrospectiva 2025${name ? " — " + name : ""}`,
+      `• Melhor momento: ${r1.value.trim() || "-"}`,
+      `• Pior perrengue: ${r2.value.trim() || "-"}`,
+      `• Maior aprendizado: ${r3.value.trim() || "-"}`,
+      `• Coisa que eu larguei: ${r4.value.trim() || "-"}`,
+      `• Quero em 2026: ${r5.value.trim() || "-"}`,
+      ``,
+      `Link da virada: ${SITE_URL}`
+    ];
+    const out = lines.join("\n");
+    recapOut.value = out;
+
+    localStorage.setItem(RECAP_KEY, JSON.stringify({
+      r1: r1.value, r2: r2.value, r3: r3.value, r4: r4.value, r5: r5.value, out
+    }));
+
+    recapHint.textContent = "Recap gerado ✅";
+    setTimeout(() => (recapHint.textContent = ""), 1400);
+  }
+
+  async function copyRecap() {
+    try {
+      if (!recapOut.value.trim()) makeRecap();
+      await navigator.clipboard.writeText(recapOut.value);
+      recapHint.textContent = "Recap copiado ✅";
+      setTimeout(() => (recapHint.textContent = ""), 1400);
+    } catch {
+      recapHint.textContent = "Não deu pra copiar.";
+      setTimeout(() => (recapHint.textContent = ""), 1600);
+    }
+  }
+
+  function clearRecap() {
+    r1.value = ""; r2.value = ""; r3.value = ""; r4.value = ""; r5.value = "";
+    recapOut.value = "";
+    localStorage.removeItem(RECAP_KEY);
+    recapHint.textContent = "Limpo.";
+    setTimeout(() => (recapHint.textContent = ""), 1200);
+  }
+
+  btnRecap?.addEventListener("click", makeRecap);
+  btnRecapCopy?.addEventListener("click", copyRecap);
+  btnRecapClear?.addEventListener("click", clearRecap);
+
+  loadRecap();
 
   // ======== countdown ========
   let celebrated = false;
@@ -91,7 +252,6 @@
     let diff = target.getTime() - n.getTime();
 
     if (diff <= 0) {
-      // já virou
       if (!celebrated) {
         celebrated = true;
         showHappyNewYear(nextYear);
@@ -106,10 +266,10 @@
     const mins = Math.floor((totalSeconds % 3600) / 60);
     const secs = totalSeconds % 60;
 
-    dEl.textContent = pad2(days);
-    hEl.textContent = pad2(hours);
-    mEl.textContent = pad2(mins);
-    sEl.textContent = pad2(secs);
+    dEl.textContent = String(days).padStart(2, "0");
+    hEl.textContent = String(hours).padStart(2, "0");
+    mEl.textContent = String(mins).padStart(2, "0");
+    sEl.textContent = String(secs).padStart(2, "0");
   }
 
   function showHappyNewYear(y) {
@@ -124,11 +284,6 @@
     `;
   }
 
-  function pad2(n) {
-    // dias pode passar de 99, então não força 2 em dias gigantes
-    return String(n).padStart(2, "0");
-  }
-
   function fmtDate(date) {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -139,7 +294,6 @@
     return `${dd}/${mm}/${yyyy} ${hh}:${mi}:${ss}`;
   }
 
-  // tick suave (10x/s) pra virar certinho sem ficar “engasgado”
   tick();
   setInterval(tick, 100);
 
@@ -168,7 +322,6 @@
       if (reducedMotion) particles = [];
     }
 
-    // confete pastel bem discreto, fica ok no branco
     const palette = [
       "rgba(17,19,24,0.35)",
       "rgba(99,102,241,0.35)",
@@ -212,13 +365,11 @@
           p.rot += p.vr;
           p.life -= 1;
 
-          // leve “arrasto”
           p.vx *= 0.992;
           p.vy *= 0.992;
 
           if (p.life > 0 && p.y < H + 40) {
             next.push(p);
-            // desenha
             ctx.save();
             ctx.translate(p.x, p.y);
             ctx.rotate(p.rot);
@@ -236,6 +387,6 @@
     return { burst, setReducedMotion };
   })();
 
-  // export global só pro debug (se quiser testar no console)
+  // debug opcional
   window.__FX = FX;
 })();

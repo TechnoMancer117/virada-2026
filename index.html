@@ -4,6 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Virada 2026</title>
+
+  <!-- Preview bonitinho em WhatsApp/Insta -->
+  <meta name="theme-color" content="#ffffff" />
+  <meta property="og:title" content="Virada 2026" />
+  <meta property="og:description" content="Contagem regressiva + metas + recap, tudo clean." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="og.png" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -84,13 +92,13 @@
 
       <section class="card" role="region" aria-label="Mensagem da virada">
         <h2>Mensagem da virada</h2>
-        <p class="small">Quando der 00:00, entra no site.</p>
+        <p class="small">Quando bater 00:00, aparece aqui.</p>
 
         <div class="message" id="message">
           <div class="big">⏳</div>
           <div>
             <div class="msgTitle">Preparando…</div>
-            <div class="msgText">Quando chegar a hora, terá confetes e a sua mensagem: “hi hi hi”.</div>
+            <div class="msgText">Quando chegar a hora, eu solto o confete e a mensagem.</div>
           </div>
         </div>
 
@@ -100,14 +108,89 @@
       </section>
     </section>
 
+    <!-- EXTRAS -->
+    <section class="card" role="region" aria-label="Extras da virada">
+      <h2>Extras</h2>
+      <p class="small">Mais coisa, mas ainda clean.</p>
+
+      <div class="extrasGrid">
+        <div class="extraBox">
+          <h3>Seu nome no site</h3>
+          <p class="small">Pra deixar com sua cara (salva só no seu navegador).</p>
+
+          <div class="row">
+            <input id="nick" class="input" type="text" maxlength="22" placeholder="Seu nome/apelido" />
+            <button id="btnNick" class="btn" type="button">Salvar</button>
+            <button id="btnNickClear" class="btn ghost" type="button">Limpar</button>
+          </div>
+
+          <div class="hint" id="nickHint" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="extraBox">
+          <h3>Compartilhar</h3>
+          <p class="small">Link + QR (pra abrir rápido no celular).</p>
+
+          <div class="row">
+            <button id="btnShare" class="btn" type="button">Compartilhar</button>
+            <button id="btnCopy" class="btn ghost" type="button">Copiar link</button>
+            <span class="hint" id="copyHint" role="status" aria-live="polite"></span>
+          </div>
+
+          <div class="qrWrap">
+            <div id="qr" class="qrBox" aria-label="QR Code do site"></div>
+            <div class="hint">Escaneia e abre.</div>
+          </div>
+        </div>
+
+        <div class="extraBox full">
+          <h3>Retrospectiva 2025 (pra mandar no zap)</h3>
+          <p class="small">Preenche rápido, gera e copia.</p>
+
+          <div class="recapGrid">
+            <label class="goal">
+              <span>Melhor momento</span>
+              <input id="r1" type="text" maxlength="60" placeholder="Ex: lancei um projeto / evoluí" />
+            </label>
+            <label class="goal">
+              <span>Pior perrengue</span>
+              <input id="r2" type="text" maxlength="60" placeholder="Ex: correria absurda / estresse" />
+            </label>
+            <label class="goal">
+              <span>Maior aprendizado</span>
+              <input id="r3" type="text" maxlength="60" placeholder="Ex: consistência vence hype" />
+            </label>
+            <label class="goal">
+              <span>Coisa que eu larguei</span>
+              <input id="r4" type="text" maxlength="60" placeholder="Ex: procrastinar / aceitar pouco" />
+            </label>
+            <label class="goal">
+              <span>Coisa que eu quero em 2026</span>
+              <input id="r5" type="text" maxlength="60" placeholder="Ex: grana, saúde, projeto no ar" />
+            </label>
+          </div>
+
+          <div class="row">
+            <button id="btnRecap" class="btn" type="button">Gerar recap</button>
+            <button id="btnRecapCopy" class="btn ghost" type="button">Copiar recap</button>
+            <button id="btnRecapClear" class="btn ghost" type="button">Limpar</button>
+            <span class="hint" id="recapHint" role="status" aria-live="polite"></span>
+          </div>
+
+          <textarea id="recapOut" class="textarea" rows="5" readonly placeholder="Seu recap aparece aqui..."></textarea>
+        </div>
+      </div>
+    </section>
+
     <footer class="foot">
-      <span>meu ultimo "site" de 2025
-                     desligando....JOÃO PEDRO.</span>
+      <span>Feito pra ser leve.</span>
       <span class="sep">•</span>
-      <span id="yearHint">2025  2026</span>
+      <span id="yearHint">2025 → 2026</span>
     </footer>
   </main>
 
+  <!-- QR Code real -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
