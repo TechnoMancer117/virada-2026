@@ -2,9 +2,11 @@
 console.log("metrics.js carregado");
 
 window.addEventListener("load", () => {
-  const timing = performance.timing;
-  const loadTime = timing.loadEventEnd - timing.navigationStart;
-  console.log("Load total:", loadTime, "ms");
+  const [nav] = performance.getEntriesByType("navigation");
+  if (nav) {
+    const loadTime = nav.loadEventEnd;
+    console.log("Load total:", loadTime.toFixed(2), "ms");
+  }
 });
 
 // LCP (Largest Contentful Paint)
